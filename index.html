@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seth Anandram Jaipuria|clock|by JCC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #f5f5f0;
+            color: #333;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main content container */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Classic frame */
+        .clock-frame {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            background: #fff;
+            border: 8px solid #8b7355;
+            border-radius: 10px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .clock-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.15),
+                inset 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Ornamental corners */
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8b7355;
+        }
+
+        .corner-tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Time display */
+        .time-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .time {
+            font-size: 4rem;
+            font-weight: normal;
+            letter-spacing: 0.05em;
+            color: #333;
+            font-family: 'Georgia', serif;
+            position: relative;
+        }
+
+        .separator {
+            font-size: 4rem;
+            margin: 0 5px;
+            animation: blink 1s ease-in-out infinite;
+            color: #666;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .ampm {
+            font-size: 1.5rem;
+            margin-left: 15px;
+            color: #666;
+            font-style: italic;
+            align-self: flex-end;
+            margin-bottom: 15px;
+        }
+
+        /* Date display */
+        .date-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+            width: 80%;
+        }
+
+        .date {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 5px;
+            font-weight: normal;
+        }
+
+        .day {
+            font-size: 1.1rem;
+            color: #777;
+            font-style: italic;
+        }
+
+        /* Decorative elements */
+        .ornament {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #8b7355, transparent);
+        }
+
+        .ornament-top {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .ornament-bottom {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Buttons */
+        .format-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .format-toggle:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        .notes-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .notes-button:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        /* Fullscreen button */
+        .fullscreen-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .fullscreen-button:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        /* Subtle pattern background */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(0, 0, 0, 0.02) 10px,
+                    rgba(0, 0, 0, 0.02) 20px
+                );
+            z-index: -1;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 0;
+            font-family: 'Georgia', serif;
+            color: #666;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+
+        .footer-line {
+            margin: 3px 0;
+            text-align: center;
+        }
+
+        .footer-line:first-child {
+            font-style: italic;
+            color: #8b7355;
+        }
+
+        .footer-line:last-child {
+            font-weight: bold;
+            color: #555;
+            letter-spacing: 0.5px;
+        }
+
+        /* Decorative line above footer */
+        .footer-divider {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ccc, transparent);
+            margin-bottom: 10px;
+        }
+
+        /* Notes Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border: 8px solid #8b7355;
+            border-radius: 10px;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        /* Notes Form */
+        .notes-form {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+        }
+
+        .form-textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .form-button {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #555;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .form-button:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        /* Notes List */
+        .notes-list {
+            margin-top: 20px;
+        }
+
+        .notes-list-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #555;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+
+        .note-item {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .note-content {
+            flex: 1;
+        }
+
+        .note-time {
+            font-weight: bold;
+            color: #8b7355;
+            margin-bottom: 5px;
+        }
+
+        .note-text {
+            color: #555;
+        }
+
+        .note-delete {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #555;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .note-delete:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        /* Test button for each note */
+        .note-test {
+            background: #e8f4f8;
+            border: 1px solid #a8d8ea;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #2c6e8f;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .note-test:hover {
+            background: #d0e8f0;
+            border-color: #8ac4d8;
+        }
+
+        /* Notification Popup */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border: 2px solid #8b7355;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-title {
+            font-weight: bold;
+            color: #8b7355;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .notification-close {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .notification-close:hover {
+            color: #333;
+        }
+
+        /* Default reminder indicator */
+        .default-reminder {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #8b7355;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-style: italic;
+        }
+
+        /* Speech test button */
+        .speech-test-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 5px 12px;
+            background: #e8f4f8;
+            border: 1px solid #a8d8ea;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            color: #2c6e8f;
+            transition: all 0.3s;
+        }
+
+        .speech-test-button:hover {
+            background: #d0e8f0;
+            border-color: #8ac4d8;
+        }
+
+        /* Fullscreen styles */
+        .fullscreen-clock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: #f5f5f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fullscreen-clock .clock-frame {
+            width: 90%;
+            max-width: 800px;
+            height: 500px;
+            border-width: 12px;
+        }
+
+        .fullscreen-clock .time {
+            font-size: 6rem;
+        }
+
+        .fullscreen-clock .separator {
+            font-size: 6rem;
+        }
+
+        .fullscreen-clock .ampm {
+            font-size: 2.5rem;
+        }
+
+        .fullscreen-clock .date {
+            font-size: 2rem;
+        }
+
+        .fullscreen-clock .day {
+            font-size: 1.8rem;
+        }
+
+        .fullscreen-clock .footer {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .clock-frame {
+                width: 90%;
+                height: 250px;
+                padding: 20px;
+            }
+            
+            .time {
+                font-size: 3rem;
+            }
+            
+            .separator {
+                font-size: 3rem;
+            }
+            
+            .ampm {
+                font-size: 1.2rem;
+            }
+            
+            .date {
+                font-size: 1.1rem;
+            }
+            
+            .day {
+                font-size: 1rem;
+            }
+            
+            .footer {
+                font-size: 0.8rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+            
+            .fullscreen-clock .time {
+                font-size: 4rem;
+            }
+            
+            .fullscreen-clock .separator {
+                font-size: 4rem;
+            }
+            
+            .fullscreen-clock .ampm {
+                font-size: 1.8rem;
+            }
+            
+            .fullscreen-clock .date {
+                font-size: 1.5rem;
+            }
+            
+            .fullscreen-clock .day {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="clock-frame" id="clockFrame">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="ornament ornament-top"></div>
+            <div class="ornament ornament-bottom"></div>
+            
+            <button class="speech-test-button" id="speechTestButton">Test Speech</button>
+            <button class="fullscreen-button" id="fullscreenButton">Fullscreen</button>
+            
+            <div class="time-container">
+                <div class="time" id="hours">00</div>
+                <div class="separator">:</div>
+                <div class="time" id="minutes">00</div>
+                <div class="separator">:</div>
+                <div class="time" id="seconds">00</div>
+                <div class="ampm" id="ampm">AM</div>
+            </div>
+            
+            <div class="date-container">
+                <div class="date" id="date">January 1, 2023</div>
+                <div class="day" id="day">Sunday</div>
+            </div>
+            
+            <button class="format-toggle" id="formatToggle">12H</button>
+            <button class="notes-button" id="notesButton">Notes</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-divider"></div>
+        <div class="footer-line">Made with ❤️ by JCC</div>
+        <div class="footer-line">Seth Anandram Jaipuria Tarna,VNS</div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div id="notesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Exam Reminders</h2>
+                <button class="close-button" id="closeModal">&times;</button>
+            </div>
+            
+            <form class="notes-form" id="notesForm">
+                <div class="form-group">
+                    <label class="form-label" for="noteTime">Time</label>
+                    <input type="time" class="form-input" id="noteTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="noteText">Reminder Note</label>
+                    <textarea class="form-textarea" id="noteText" placeholder="Enter exam reminder..." required></textarea>
+                </div>
+                
+                <button type="submit" class="form-button">Add Reminder</button>
+                <button type="button" class="form-button" id="resetButton">Reset to Defaults</button>
+            </form>
+            
+            <div class="notes-list">
+                <h3 class="notes-list-title">Your Reminders</h3>
+                <div id="notesListContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script>
+        // Clock variables
+        let is24Hour = false;
+        let isFullscreen = false;
+        let speechEnabled = true;
+        
+        // Notes variables
+        let notes = [];
+        const maxNotes = 10;
+
+        // Initialize notes from localStorage
+        function initNotes() {
+            const savedNotes = localStorage.getItem('examNotes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+                // If there are no notes, add the defaults
+                if (notes.length === 0) {
+                    addDefaultReminders();
+                } else {
+                    renderNotesList();
+                }
+            } else {
+                addDefaultReminders();
+            }
+        }
+
+        // Add default exam reminders
+        function addDefaultReminders() {
+            notes = [
+                { time: "08:15", text: "Exam starts", isDefault: true },
+                { time: "10:15", text: "Last 1 hour", isDefault: true },
+                { time: "11:15", text: "Exam ends", isDefault: true }
+            ];
+            saveNotes();
+            renderNotesList();
+        }
+
+        // Save notes to localStorage
+        function saveNotes() {
+            localStorage.setItem('examNotes', JSON.stringify(notes));
+        }
+
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            
+            // Get time components
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // Determine AM/PM
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            // Convert to 12-hour format if needed
+            if (!is24Hour) {
+                hours = hours % 12 || 12;
+            }
+            
+            // Format with leading zeros
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            // Update DOM
+            document.getElementById('hours').textContent = formattedHours;
+            document.getElementById('minutes').textContent = formattedMinutes;
+            document.getElementById('seconds').textContent = formattedSeconds;
+            
+            if (!is24Hour) {
+                document.getElementById('ampm').textContent = ampm;
+                document.querySelector('.ampm').style.display = 'block';
+            } else {
+                document.querySelector('.ampm').style.display = 'none';
+            }
+            
+            // Get date components
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const date = now.getDate();
+            const year = now.getFullYear();
+            
+            // Format date
+            const formattedDate = `${monthName} ${date}, ${year}`;
+            
+            // Update DOM
+            document.getElementById('date').textContent = formattedDate;
+            document.getElementById('day').textContent = dayName;
+            
+            // Check for notes that should trigger
+            checkNotes(now);
+        }
+
+        // Check if any notes should trigger
+        function checkNotes(now) {
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const currentDate = now.toDateString();
+            
+            notes.forEach((note, index) => {
+                if (note.time === currentTime && note.date !== currentDate) {
+                    // Trigger notification
+                    showNotification(note);
+                    // Update note date to prevent multiple triggers on same day
+                    note.date = currentDate;
+                    saveNotes();
+                }
+            });
+        }
+
+        // Play notification sound
+        function playNotificationSound() {
+            try {
+                // Create audio context for sound
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Set sound properties
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 800; // Frequency in Hz
+                gainNode.gain.value = 0.3; // Volume
+                
+                // Start and stop the sound
+                oscillator.start();
+                
+                // Create a beep pattern
+                setTimeout(() => {
+                    oscillator.frequency.value = 600;
+                }, 200);
+                
+                setTimeout(() => {
+                    oscillator.frequency.value = 800;
+                }, 400);
+                
+                setTimeout(() => {
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                }, 600);
+            } catch (e) {
+                console.error("Error playing sound:", e);
+            }
+        }
+
+        // Text-to-speech function
+        function speakText(text) {
+            if (!speechEnabled) return;
+            
+            if ('speechSynthesis' in window) {
+                try {
+                    // Cancel any ongoing speech
+                    window.speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    // Event listeners for better error handling
+                    utterance.onstart = () => {
+                        console.log("Speech started");
+                    };
+                    
+                    utterance.onend = () => {
+                        console.log("Speech ended");
+                    };
+                    
+                    utterance.onerror = (event) => {
+                        console.error("Speech synthesis error:", event.error);
+                    };
+                    
+                    window.speechSynthesis.speak(utterance);
+                } catch (e) {
+                    console.error("Error with speech synthesis:", e);
+                }
+            } else {
+                console.warn("Speech synthesis not supported in this browser");
+            }
+        }
+
+        // Show notification
+        function showNotification(note) {
+            // Play sound
+            playNotificationSound();
+            
+            // Speak the notification text
+            speakText(`Exam reminder: ${note.text}`);
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            notification.innerHTML = `
+                <div class="notification-title">Exam Reminder</div>
+                <div class="notification-message">${note.text}</div>
+                <button class="notification-close">Dismiss</button>
+            `;
+            
+            // Add to container
+            const container = document.getElementById('notificationContainer');
+            container.appendChild(notification);
+            
+            // Add event listener to close button
+            const closeButton = notification.querySelector('.notification-close');
+            closeButton.addEventListener('click', () => {
+                notification.remove();
+            });
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Render notes list
+        function renderNotesList() {
+            const container = document.getElementById('notesListContainer');
+            container.innerHTML = '';
+            
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="color: #777; font-style: italic;">No reminders set</p>';
+                return;
+            }
+            
+            notes.forEach((note, index) => {
+                const noteItem = document.createElement('div');
+                noteItem.className = 'note-item';
+                noteItem.style.position = 'relative';
+                
+                noteItem.innerHTML = `
+                    <div class="note-content">
+                        <div class="note-time">${note.time}</div>
+                        <div class="note-text">${note.text}</div>
+                    </div>
+                    <button class="note-test" data-index="${index}">Test</button>
+                    <button class="note-delete" data-index="${index}">Delete</button>
+                `;
+                
+                // Add default indicator if it's a default reminder
+                if (note.isDefault) {
+                    const defaultIndicator = document.createElement('div');
+                    defaultIndicator.className = 'default-reminder';
+                    defaultIndicator.textContent = 'Default';
+                    noteItem.appendChild(defaultIndicator);
+                }
+                
+                container.appendChild(noteItem);
+            });
+            
+            // Add event listeners to test buttons
+            const testButtons = container.querySelectorAll('.note-test');
+            testButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    testNote(index);
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            const deleteButtons = container.querySelectorAll('.note-delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    deleteNote(index);
+                });
+            });
+        }
+
+        // Test a note
+        function testNote(index) {
+            const note = notes[index];
+            if (note) {
+                // Show notification immediately for testing
+                showNotification(note);
+            }
+        }
+
+        // Add a new note
+        function addNote(time, text) {
+            if (notes.length >= maxNotes) {
+                alert(`You can only add up to ${maxNotes} reminders.`);
+                return;
+            }
+            
+            notes.push({
+                time: time,
+                text: text,
+                date: '', // Will be set when triggered
+                isDefault: false
+            });
+            
+            saveNotes();
+            renderNotesList();
+        }
+
+        // Delete a note
+        function deleteNote(index) {
+            notes.splice(index, 1);
+            saveNotes();
+            renderNotesList();
+        }
+
+        // Toggle time format
+        document.getElementById('formatToggle').addEventListener('click', function() {
+            is24Hour = !is24Hour;
+            this.textContent = is24Hour ? '24H' : '12H';
+            updateClock();
+        });
+
+        // Speech test button
+        document.getElementById('speechTestButton').addEventListener('click', function() {
+            speakText("This is a test of the speech system. Exam reminders will be read aloud like this.");
+        });
+
+        // Notes modal
+        const notesModal = document.getElementById('notesModal');
+        const notesButton = document.getElementById('notesButton');
+        const closeModal = document.getElementById('closeModal');
+        const notesForm = document.getElementById('notesForm');
+
+        notesButton.addEventListener('click', () => {
+            notesModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            notesModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === notesModal) {
+                notesModal.style.display = 'none';
+            }
+        });
+
+        notesForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const timeInput = document.getElementById('noteTime');
+            const textInput = document.getElementById('noteText');
+            
+            addNote(timeInput.value, textInput.value);
+            
+            // Reset form
+            timeInput.value = '';
+            textInput.value = '';
+        });
+
+        // Reset to defaults button
+        document.getElementById('resetButton').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset to the default exam reminders? This will replace all your current reminders.')) {
+                addDefaultReminders();
+            }
+        });
+
+        // Fullscreen functionality
+        const fullscreenButton = document.getElementById('fullscreenButton');
+        const clockFrame = document.getElementById('clockFrame');
+        const mainContent = document.querySelector('.main-content');
+        const footer = document.querySelector('.footer');
+
+        fullscreenButton.addEventListener('click', function() {
+            if (!isFullscreen) {
+                // Enter fullscreen
+                const fullscreenElement = document.createElement('div');
+                fullscreenElement.className = 'fullscreen-clock';
+                fullscreenElement.id = 'fullscreenClock';
+                
+                // Clone the clock frame
+                const clockClone = clockFrame.cloneNode(true);
+                fullscreenElement.appendChild(clockClone);
+                
+                // Add to body
+                document.body.appendChild(fullscreenElement);
+                
+                // Update button text
+                document.getElementById('fullscreenClock').querySelector('.fullscreen-button').textContent = 'Exit Fullscreen';
+                
+                // Update event listeners for the cloned elements
+                setupEventListenersForFullscreen();
+                
+                isFullscreen = true;
+                
+                // Hide original elements
+                mainContent.style.display = 'none';
+                footer.style.display = 'none';
+            } else {
+                // Exit fullscreen
+                const fullscreenClock = document.getElementById('fullscreenClock');
+                if (fullscreenClock) {
+                    fullscreenClock.remove();
+                }
+                
+                // Show original elements
+                mainContent.style.display = 'flex';
+                footer.style.display = 'flex';
+                
+                // Update button text
+                fullscreenButton.textContent = 'Fullscreen';
+                
+                isFullscreen = false;
+            }
+        });
+
+        // Setup event listeners for fullscreen elements
+        function setupEventListenersForFullscreen() {
+            const fullscreenClock = document.getElementById('fullscreenClock');
+            
+            // Speech test button
+            const speechTestButton = fullscreenClock.querySelector('.speech-test-button');
+            speechTestButton.addEventListener('click', function() {
+                speakText("This is a test of the speech system. Exam reminders will be read aloud like this.");
+            });
+            
+            // Format toggle
+            const formatToggle = fullscreenClock.querySelector('.format-toggle');
+            formatToggle.addEventListener('click', function() {
+                is24Hour = !is24Hour;
+                this.textContent = is24Hour ? '24H' : '12H';
+                updateClock();
+            });
+            
+            // Notes button
+            const notesButton = fullscreenClock.querySelector('.notes-button');
+            notesButton.addEventListener('click', () => {
+                notesModal.style.display = 'flex';
+            });
+            
+            // Fullscreen button
+            const fullscreenButton = fullscreenClock.querySelector('.fullscreen-button');
+            fullscreenButton.addEventListener('click', function() {
+                // Exit fullscreen
+                fullscreenClock.remove();
+                mainContent.style.display = 'flex';
+                footer.style.display = 'flex';
+                document.querySelector('.clock-frame .fullscreen-button').textContent = 'Fullscreen';
+                isFullscreen = false;
+            });
+        }
+
+        // Initialize
+        initNotes();
+        updateClock();
+        
+        // Update clock every second
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
